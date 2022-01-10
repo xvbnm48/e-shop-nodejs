@@ -4,7 +4,7 @@ const express = require("express");
 const router = express.Router();
 
 router.get(`/`, async (req, res) => {
-  const productList = await Product.find();
+  const productList = await Product.find().select("name");
   if (!productList) {
     res.status(500).json({ success: false, message: "No products found" });
   }
@@ -34,6 +34,12 @@ router.post(`/`, async (req, res) => {
   product = await product.save();
   if (!product) return res.status(500).send("the product cannot be created");
   res.status(200).send(product);
+});
+
+router.get(`/:id`, async (req, res) => {
+  const product = await Product.findById(req.params.id);
+  if (!product) return res.status(400).send("Invalid Product");
+  res.send(product);
 });
 
 module.exports = router;
