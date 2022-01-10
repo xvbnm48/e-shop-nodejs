@@ -4,7 +4,8 @@ const express = require("express");
 const router = express.Router();
 
 router.get(`/`, async (req, res) => {
-  const productList = await Product.find().select("name");
+  // ambil product dari database dengan nama image
+  const productList = await Product.find().populate("category");
   if (!productList) {
     res.status(500).json({ success: false, message: "No products found" });
   }
@@ -37,8 +38,35 @@ router.post(`/`, async (req, res) => {
 });
 
 router.get(`/:id`, async (req, res) => {
-  const product = await Product.findById(req.params.id);
+  // dengan populate category, maka akan mengambil data category dan menampilkan data category
+  const product = await Product.findById(req.params.id).populate("category");
   if (!product) return res.status(400).send("Invalid Product");
+  res.send(product);
+});
+
+router.put(`/:id`, async (req, res) => {
+  const category = await Category.findById(req.body.category);
+  if (!category) return res.status(400).send("Invalid Category");
+
+  const product = await Product.findByIdAndUpdate(
+    req.params.id,
+    {
+      name: req.body.name,
+      description: req.body.description,
+      richDescription: req.body.richDescription,
+      image: req.body.image,
+      brand: req.body.brand,
+      price: req.body.price,
+      category: req.body.category,
+      countInStock: req.body.countInStock,
+      rating: req.body.rating,
+      numReviews: req.body.numReviews,
+      isFeatured: req.body.isFeatured,
+    },
+    { new: true }
+  );
+
+  if (!product) return res.status(400).send("the Product cannot be updated");
   res.send(product);
 });
 
