@@ -17,3 +17,6 @@ ini kalo mau pakai post tanpa async
       });
     });
 ```
+
+
+ada error di npm nya harus bikin repo baru ini
