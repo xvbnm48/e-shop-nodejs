@@ -1,5 +1,6 @@
 this is node js course 
 link [NODE JS E SHOP](https://www.udemy.com/course/nodejs-build-complete-ecommerce-web-api/learn/lecture/24250940#overview)
+i will do best 
 
 now at part 24
 ini kalo mau pakai post tanpa async
